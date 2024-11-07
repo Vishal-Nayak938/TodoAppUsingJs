@@ -15,50 +15,9 @@
 </center>
   <div class="todo-container grid-container"></div>
 
-  <!-- <script src="todo.js"></script> -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
 import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
-
-  let todoList = [
-    {
-      item: 'Buy Milk',
-      dueDate: '4/10/2023'
-    },
-    {
-      item: 'Go to College',
-      dueDate: '4/10/2023'
-    }
-  ];
-  
-  displayItems();
-  
-  function addTodo() {
-
-    let inputElement = document.querySelector('#todo-input');
-    let dateElement = document.querySelector('#todo-date');
-    let todoItem = inputElement.value;
-    let todoDate = dateElement.value;
-    todoList.push({item: todoItem, dueDate: todoDate});
-    inputElement.value = '';
-    dateElement.value = ''; 
-    displayItems();
-  }
-  
-  function displayItems() {
-    let containerElement = document.querySelector('.todo-container');
-    let newHtml = '';
-    for (let i = 0; i < todoList.length; i++) {
-      let {item, dueDate} = todoList[i];
-      newHtml += `
-        <span>${item}</span>
-        <span>${dueDate}</span>
-        <button class='btn-delete' onclick="todoList.splice(${i}, 1);
-        displayItems();">Delete</button>
-      `;
-    }
-    containerElement.innerHTML = newHtml;
-  }
   
   const firebaseConfig = {
       apiKey: "AIzaSyAo2Yxs2tKSzvEY0oN_ks_cXb2g-M7ra2U",
@@ -77,16 +36,17 @@ import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/fir
     const database=getDatabase(app);
     
     // Reference a path in the database
-    const dbRef = ref(database, 'users');
+    const dbRef = ref(database, 'users/user1');
     
     // Write data to the databases
     document.querySelector(".btn-todo").addEventListener("click",(e)=>{
       e.preventDefault()
-      console.log(`this is todo : ${todoItem}`)
+      // console.log(`this is todo : ${document.querySelector("#todo-input").value}`)
     
     set(dbRef, {
-      Todo: todoItem,
-      Date: todoItem,
+      Todo:document.getElementById("todo-input").value,
+      Date:document.getElementById("todo-date").value,
+
     })
     .then(() => {
       console.log("Data written successfully!");
@@ -94,9 +54,9 @@ import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/fir
     .catch((error) => {
       console.error("Error writing data:", error);
     });
-    })
-   
+    });
+      </script>
+<script src="todo.js"></script>
   
-  </script>
 </body>
 </html>
